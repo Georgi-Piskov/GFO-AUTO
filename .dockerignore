@@ -1,0 +1,15 @@
+**/bin/
+**/obj/
+**/.vs/
+**/.vscode/
+**/node_modules/
+**/.git/
+**/.gitignore
+**/*.user
+**/*.suo
+**/*.swp
+**/*.tmp
+**/*.log
+**/TestResults/
+**/wwwroot/tmp/
+

@@ -1,0 +1,37 @@
+name: Deploy to Fly.io
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch: {}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      FLY_APP_NAME: ${{ vars.FLY_APP_NAME }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Flyctl
+        uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: Validate config
+        run: |
+          if [ -z "$FLY_API_TOKEN" ]; then echo "Missing secrets.FLY_API_TOKEN" && exit 1; fi
+          if [ -z "$FLY_APP_NAME" ]; then echo "Missing vars.FLY_APP_NAME (set Repository Variable)" && exit 1; fi
+
+      - name: Set secrets (N8N webhook)
+        if: ${{ secrets.N8N_WEBHOOK_URL != '' }}
+        run: |
+          flyctl secrets set N8N_WEBHOOK_URL='${{ secrets.N8N_WEBHOOK_URL }}' -a "$FLY_APP_NAME"
+
+      - name: Deploy
+        run: |
+          flyctl deploy --config fly.toml -a "$FLY_APP_NAME" --remote-only
+

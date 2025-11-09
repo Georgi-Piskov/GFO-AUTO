@@ -1,0 +1,58 @@
+@page
+@model NoActivityFiler.Pages.ReviewModel
+@{
+    ViewData["Title"] = "Преглед";
+}
+
+<h1 class="mb-3">Преглед на данните</h1>
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-warning">@Model.ErrorMessage</div>
+}
+
+<div class="card mb-3">
+    <div class="card-header">Предприятие</div>
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">ЕИК</dt><dd class="col-sm-9">@Model.Input.Company.Eik</dd>
+            <dt class="col-sm-3">Наименование</dt><dd class="col-sm-9">@Model.Input.Company.Name</dd>
+            <dt class="col-sm-3">Правна форма</dt><dd class="col-sm-9">@Model.Input.Company.LegalForm</dd>
+            <dt class="col-sm-3">Седалище</dt><dd class="col-sm-9">@Model.Input.Company.Seat</dd>
+            <dt class="col-sm-3">Адрес</dt><dd class="col-sm-9">@Model.Input.Company.Address</dd>
+            <dt class="col-sm-3">Област</dt><dd class="col-sm-9">@Model.Input.Company.Region</dd>
+            <dt class="col-sm-3">Община</dt><dd class="col-sm-9">@Model.Input.Company.Municipality</dd>
+            <dt class="col-sm-3">Година</dt><dd class="col-sm-9">@Model.Input.Year</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-header">Декларатор</div>
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">Име</dt><dd class="col-sm-9">@Model.Input.Declarant.FullName</dd>
+            <dt class="col-sm-3">Длъжност</dt><dd class="col-sm-9">@Model.Input.Declarant.Position</dd>
+            <dt class="col-sm-3">E-mail</dt><dd class="col-sm-9">@Model.Input.Declarant.Email</dd>
+            <dt class="col-sm-3">Телефон</dt><dd class="col-sm-9">@Model.Input.Declarant.Phone</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header">НСИ / ЗСч</div>
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">КИД-2008</dt><dd class="col-sm-9">@Model.Input.Nsi.Kid2008</dd>
+            <dt class="col-sm-3">Собственост</dt><dd class="col-sm-9">@Model.Input.Nsi.Ownership</dd>
+            <dt class="col-sm-3">Първи период без дейност</dt><dd class="col-sm-9">@(Model.Input.ZSch.FirstPeriodNoActivity ? "Да" : "Не")</dd>
+        </dl>
+    </div>
+</div>
+
+<form method="post">
+    <button type="submit" asp-page-handler="Generate" class="btn btn-primary">Генерирай PDF</button>
+    <a asp-page="/Index" class="btn btn-secondary">Назад</a>
+    <div class="text-muted small mt-2">Ако възникне грешка, ще видите съобщение и може да опитате отново.</div>
+</form>
+

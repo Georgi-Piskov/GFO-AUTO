@@ -1,0 +1,57 @@
+@page
+@model NoActivityFiler.Pages.DownloadModel
+@{
+    ViewData["Title"] = "Сваляне";
+}
+
+<h1 class="mb-3">Готово</h1>
+
+<div class="card mb-4">
+    <div class="card-header">Вашите документи</div>
+    <div class="card-body">
+        <a class="btn btn-outline-primary me-2" href="@Model.Result!.App11PdfUrl" download>Свали Приложение №11 (НСИ).pdf</a>
+        <a class="btn btn-outline-primary" href="@Model.Result!.ZSchPdfUrl" download>Свали Декларация по чл. 38, ал. 9, т. 2.pdf</a>
+    </div>
+    </div>
+
+<div class="card mb-4">
+    <div class="card-header">Подаване към НСИ по e-mail</div>
+    <div class="card-body">
+        <p class="mb-2">Прикачете подписаните PDF-и, ако ще подавате по e-mail.</p>
+        <div class="mb-2">
+            <label class="form-label">Текст на e-mail (копирайте и поставете):</label>
+            <textarea id="emailBody" class="form-control" rows="10" readonly>@Model.EmailBody</textarea>
+        </div>
+        <button type="button" class="btn btn-secondary me-2" onclick="copyText('emailBody')">Копирай текста</button>
+        <button type="button" class="btn btn-outline-secondary" onclick="copyText('nsiEmail')">Копирай e-mail адрес</button>
+        <input type="text" id="nsiEmail" class="visually-hidden" value="nsi@<вашето-тсб>.nsi.bg" readonly />
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header">Подаване в Търговския регистър</div>
+    <div class="card-body">
+        <ul>
+            <li>Влезте в портала на Търговския регистър с КЕП.</li>
+            <li>Изберете услуга за подаване на декларация по чл. 38, ал. 9, т. 2 от ЗСч.</li>
+            <li>Прикачете подписаната декларация. Таксата е 0 лв.</li>
+        </ul>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header">Подаване на място</div>
+    <div class="card-body">
+        <ul>
+            <li>Разпечатайте генерираните документи.</li>
+            <li>Посетете съответното Териториално статистическо бюро на НСИ.</li>
+            <li>Носете личен документ и печат на фирмата (ако се използва).</li>
+        </ul>
+    </div>
+</div>
+
+<div class="mb-4">
+    <a asp-page="/Index" class="btn btn-secondary">Начало</a>
+    <a asp-page="/Review" class="btn btn-outline-secondary">Назад към преглед</a>
+    <span class="text-muted ms-2">Файловете се съхраняват временно и се изтриват до 24 часа.</span>
+</div>

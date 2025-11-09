@@ -1,0 +1,30 @@
+@using Microsoft.AspNetCore.Http.Features
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Antiforgery
+@{
+    var consentFeature = Context.Features.Get<ITrackingConsentFeature>();
+    var showBanner = !(consentFeature?.CanTrack ?? false);
+    var cookieString = consentFeature?.CreateConsentCookie();
+}
+
+@if (showBanner)
+{
+    <div class="bg-light border-bottom py-2">
+        <div class="container d-flex justify-content-between align-items-center">
+            <small>
+                Този сайт използва бисквитки за сесия. С продължаване се съгласявате.
+            </small>
+            <button type="button" class="btn btn-sm btn-primary" data-cookie-string="@cookieString">Съгласен съм</button>
+        </div>
+    </div>
+    <script>
+        (function () {
+            var button = document.querySelector("[data-cookie-string]");
+            if (!button) return;
+            button.addEventListener("click", function (event) {
+                document.cookie = button.dataset.cookieString;
+                button.closest('.bg-light').remove();
+            }, false);
+        })();
+    </script>
+}
+

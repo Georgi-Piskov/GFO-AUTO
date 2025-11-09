@@ -1,0 +1,19 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+*.sln.ide
+*.cache
+TestResults/
+.nuget/
+# VS/IDE
+.vs/
+.vscode/
+# Node
+node_modules/
+# OS
+.DS_Store
+Thumbs.db
+# App temp
+NoActivityFiler/wwwroot/tmp/

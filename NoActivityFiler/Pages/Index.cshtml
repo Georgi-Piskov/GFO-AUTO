@@ -1,0 +1,120 @@
+@page
+@model NoActivityFiler.Pages.IndexModel
+@{
+    ViewData["Title"] = "Начало";
+}
+
+<h1 class="mb-3">Генератор на документи за липса на дейност</h1>
+<p class="text-muted">Попълнете стъпките по-долу. Полетата с * са задължителни.</p>
+
+<div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+<form method="post">
+    <input type="hidden" asp-for="Step" />
+
+    <div class="card mb-3">
+        <div class="card-header">Стъпка 1: Данни за предприятие и година</div>
+        <div class="card-body" style="@(Model.Step == 1 ? "" : "display:none;")">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label asp-for="Input.Company.Eik" class="form-label"></label>
+                    <input asp-for="Input.Company.Eik" class="form-control" placeholder="напр. 123456789" />
+                    <span asp-validation-for="Input.Company.Eik" class="text-danger"></span>
+                </div>
+                <div class="col-md-8">
+                    <label asp-for="Input.Company.Name" class="form-label"></label>
+                    <input asp-for="Input.Company.Name" class="form-control" placeholder="напр. Пример ООД" />
+                    <span asp-validation-for="Input.Company.Name" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-4">
+                    <label asp-for="Input.Company.LegalForm" class="form-label"></label>
+                    <select asp-for="Input.Company.LegalForm" class="form-select" asp-items="new SelectList(Model.LegalForms)"></select>
+                    <span asp-validation-for="Input.Company.LegalForm" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="Input.Year" class="form-label"></label>
+                    <input asp-for="Input.Year" class="form-control" placeholder="напр. 2024" />
+                    <span asp-validation-for="Input.Year" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-4">
+                    <label asp-for="Input.Company.Seat" class="form-label"></label>
+                    <input asp-for="Input.Company.Seat" class="form-control" placeholder="град/село" />
+                    <span asp-validation-for="Input.Company.Seat" class="text-danger"></span>
+                </div>
+                <div class="col-md-8">
+                    <label asp-for="Input.Company.Address" class="form-label"></label>
+                    <input asp-for="Input.Company.Address" class="form-control" placeholder="адрес на управление" />
+                    <span asp-validation-for="Input.Company.Address" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Input.Company.Region" class="form-label"></label>
+                    <input asp-for="Input.Company.Region" class="form-control" />
+                    <span asp-validation-for="Input.Company.Region" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Input.Company.Municipality" class="form-label"></label>
+                    <input asp-for="Input.Company.Municipality" class="form-control" />
+                    <span asp-validation-for="Input.Company.Municipality" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="mt-3 d-flex justify-content-end">
+                <button type="submit" name="action" value="Next" class="btn btn-primary">Напред</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="card-header">Стъпка 2: Декларатор и НСИ</div>
+        <div class="card-body" style="@(Model.Step == 2 ? "" : "display:none;")">
+            <h6 class="mb-2">Декларатор</h6>
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label asp-for="Input.Declarant.FullName" class="form-label"></label>
+                    <input asp-for="Input.Declarant.FullName" class="form-control" />
+                    <span asp-validation-for="Input.Declarant.FullName" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Input.Declarant.Position" class="form-label"></label>
+                    <input asp-for="Input.Declarant.Position" class="form-control" />
+                    <span asp-validation-for="Input.Declarant.Position" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Input.Declarant.Email" class="form-label"></label>
+                    <input asp-for="Input.Declarant.Email" class="form-control" />
+                    <span asp-validation-for="Input.Declarant.Email" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Input.Declarant.Phone" class="form-label"></label>
+                    <input asp-for="Input.Declarant.Phone" class="form-control" />
+                    <span asp-validation-for="Input.Declarant.Phone" class="text-danger"></span>
+                </div>
+            </div>
+
+            <h6 class="mb-2">НСИ данни</h6>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label asp-for="Input.Nsi.Kid2008" class="form-label"></label>
+                    <input asp-for="Input.Nsi.Kid2008" class="form-control" placeholder="по желание" />
+                    <span asp-validation-for="Input.Nsi.Kid2008" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Input.Nsi.Ownership" class="form-label"></label>
+                    <select asp-for="Input.Nsi.Ownership" class="form-select" asp-items="new SelectList(Model.Ownerships)"></select>
+                    <span asp-validation-for="Input.Nsi.Ownership" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 form-check mt-3">
+                    <input asp-for="Input.ZSch.FirstPeriodNoActivity" class="form-check-input" />
+                    <label asp-for="Input.ZSch.FirstPeriodNoActivity" class="form-check-label"></label>
+                </div>
+            </div>
+
+            <div class="mt-3 d-flex justify-content-between">
+                <button type="submit" name="action" value="Back" class="btn btn-secondary">Назад</button>
+                <button type="submit" name="action" value="Review" class="btn btn-success">Преглед</button>
+            </div>
+        </div>
+    </div>
+</form>
+
