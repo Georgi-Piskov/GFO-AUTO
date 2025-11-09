@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: noactivityfiler
+    env: docker
+    plan: free
+    autoDeploy: true
+    dockerContext: .
+    dockerfilePath: NoActivityFiler/Dockerfile
+    healthCheckPath: /
+    envVars:
+      - key: N8N_WEBHOOK_URL
+        sync: false # set in Render Dashboard
+
