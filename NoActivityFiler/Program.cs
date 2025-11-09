@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.CookiePolicy;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Options;
 using NoActivityFiler.Options;
 using NoActivityFiler.Services;
@@ -61,7 +62,18 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
+// Respect X-Forwarded-* headers (Render/Fly/Koyeb terminate TLS at edge)
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+});
+
+// Avoid forcing HTTPS inside container unless explicitly requested
+var forceHttps = string.Equals(Environment.GetEnvironmentVariable("FORCE_HTTPS"), "true", StringComparison.OrdinalIgnoreCase);
+if (forceHttps)
+{
+    app.UseHttpsRedirection();
+}
 app.UseStaticFiles();
 app.UseCookiePolicy();
 app.UseRouting();
