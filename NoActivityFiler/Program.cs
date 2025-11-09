@@ -65,8 +65,15 @@ if (!app.Environment.IsDevelopment())
 // Respect X-Forwarded-* headers (Render/Fly/Koyeb terminate TLS at edge)
 app.UseForwardedHeaders(new ForwardedHeadersOptions
 {
-    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
+    RequireHeaderSymmetry = false,
+    ForwardLimit = null
+    // Note: Render uses dynamic proxies; allow all by clearing known lists below.
 });
+// Allow forwarded headers from all proxies (Render/Fly dynamic IPs)
+var fwdOpts = app.Services.GetRequiredService<IOptions<ForwardedHeadersOptions>>().Value;
+fwdOpts.KnownNetworks.Clear();
+fwdOpts.KnownProxies.Clear();
 
 // Avoid forcing HTTPS inside container unless explicitly requested
 var forceHttps = string.Equals(Environment.GetEnvironmentVariable("FORCE_HTTPS"), "true", StringComparison.OrdinalIgnoreCase);
